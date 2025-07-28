@@ -92,8 +92,7 @@ void serial_write(uint8_t data) {
   serial_tx_buffer[serial_tx_buffer_head] = data;
   serial_tx_buffer_head = next_head;
 
-  // 开启数据寄存器为空的中断，确保串口发送流运行。
-  // 只要环形队列有空间，就可以持续不断地从串口接收数据。
+  // 开启数据寄存器为空的中断，确保串口发送流运行。因为发送队列为空时会关闭中断。
   UCSR0B |=  (1 << UDRIE0);
 }
 
