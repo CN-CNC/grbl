@@ -82,7 +82,7 @@ void serial_write(uint8_t data) {
   uint8_t next_head = serial_tx_buffer_head + 1;
   if (next_head == TX_RING_BUFFER) { next_head = 0; }
 
-  // 等待，直到缓冲区有空间
+  // 等待，直到缓冲区有空间,防止数据被覆盖。
   while (next_head == serial_tx_buffer_tail) {
     // 代办：重构st_prep_tx_buffer()调用，在长打印期间在这里执行。
     if (sys_rt_exec_state & EXEC_RESET) { return; } // 只检查终止防止死循环。
